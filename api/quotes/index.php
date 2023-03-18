@@ -10,7 +10,7 @@ if ($method === 'OPTIONS') {
 }
 
 else if($method === 'GET'){
-    if(str_contains($_SERVER['QUERY_STRING'],'id'))
+    if($_SERVER['QUERY_STRING'] != null)
         require 'read_single.php';
     else
         require 'read.php';
