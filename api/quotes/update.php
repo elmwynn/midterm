@@ -23,13 +23,13 @@
             $quote_arr = array(
                 'id' => $updateQuote->id,
                 'quote' => $updateQuote->quote,
-                'author' => $updateQuote->author_id,
-                'category' => $updateQuote->category_id
+                'author_id' => $updateQuote->author_id,
+                'category_id' => $updateQuote->category_id
             );
             print_r(json_encode($quote_arr));
         }
         else{
-            echo json_encode(array('message' => 'No Quote Found'));
+            echo json_encode(array('message' => 'No Quotes Found'));
         }
     }
     else {

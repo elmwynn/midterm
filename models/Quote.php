@@ -7,6 +7,8 @@ class Quote {
     public $quote;
     public $author_id;
     public $category_id;
+    public $author;
+    public $category;
 
     public function __construct($db){
         $this->conn = $db;
@@ -32,8 +34,7 @@ class Quote {
         }
 
         else if(str_contains($_SERVER['QUERY_STRING'],'author_id')){
-            $query = 'SELECT quotes.id, author, quote, category FROM ' . $this-> table . 
-            ' INNER JOIN authors ON quotes.author_id = authors.id INNER JOIN categories ON quotes.category_id = categories.id WHERE author_id = ?';
+            $query = 'SELECT quotes.id, author, quote, category FROM ' . $this-> table . ' INNER JOIN authors ON quotes.author_id = authors.id INNER JOIN categories ON quotes.category_id = categories.id WHERE author_id = ?';
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->author_id);
             $stmt->execute();
@@ -41,7 +42,7 @@ class Quote {
         }
 
         else if(str_contains($_SERVER['QUERY_STRING'],'category_id')){
-            $query = 'SELECT quotes.id, quote, category FROM ' . $this-> table . 
+            $query = 'SELECT quotes.id, quote, author, category FROM ' . $this-> table . 
             ' INNER JOIN authors ON quotes.author_id = authors.id INNER JOIN categories ON quotes.category_id = categories.id WHERE category_id = ?';
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->category_id);
@@ -78,9 +79,7 @@ class Quote {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id = $row['id'];
             return true;
-        }
-        printf("Error: %s. \n", $stmt->error);
-        return false;    
+        } 
        }
 
 
@@ -115,7 +114,7 @@ class Quote {
 
     public function delete() {
         
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id RETURNING id';
 
         $stmt = $this->conn->prepare($query);
 
@@ -124,11 +123,12 @@ class Quote {
         $stmt->bindParam(':id', $this->id);
 
         if($stmt->execute()) {
-          return true;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $tester = $row['id'];
+            $test = $tester === null ? false : true;
+            return $test;
         }
     
-        printf("Error: %s.\n", $stmt->error);
-        return false;
   }
 }
 

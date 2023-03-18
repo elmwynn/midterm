@@ -27,5 +27,5 @@
         }
     }
     else{
-        echo json_encode (array('message' => 'Missing Required Parameter'));
+        echo json_encode (array('message' => 'Missing Required Parameters'));
     }

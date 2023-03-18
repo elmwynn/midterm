@@ -21,7 +21,7 @@
       if($updateAuthor->update()){
         $author_arr = array(
           'id' => $updateAuthor->id,
-          'category' => $updateAuthor->author
+          'author' => $updateAuthor->author
          );
         print_r(json_encode($author_arr));
       }

@@ -18,7 +18,7 @@
     $deleteAuthor->id = $data->id;
 
     if($deleteAuthor->delete()){
-        echo json_encode($deleteAuthor->id);
+        echo json_encode(array('id' => $deleteAuthor->id));
     }
     else {
         echo json_encode(array('message'=> 'Author Not Deleted'));

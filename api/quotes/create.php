@@ -23,10 +23,10 @@
 
         if($newQuote->create()){
             $quote_arr = array(
-                'id' => $quote->id,
-                'quote' => $quote->quote,
-                'author' => $quote->author,
-                'category' => $quote->category
+                'id' => $newQuote->id,
+                'quote' => $newQuote->quote,
+                'author' => $newQuote->author_id,
+                'category' => $newQuote->category_id
             );
             print_r(json_encode($quote_arr));
         }
