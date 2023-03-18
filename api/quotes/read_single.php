@@ -45,9 +45,10 @@
             while($row = $result->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
                 $quote_item = array(
-                    'id' => $id,
-                    'quote' => $quote,
-                    'author' => $author
+                    'id' => intval($quote->id),
+                    'quote' => $quote->quote,
+                    'author' => $quote->author,
+                    'category' => $quote->category
                 ); 
                 array_push($quotes_arr, $quote_item);
             }
@@ -70,9 +71,10 @@
             while($row = $result->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
                 $quote_item = array(
-                    'id' => $id,
-                    'quote' => $quote,
-                    'category' => $category
+                    'id' => intval($quote->id),
+                    'quote' => $quote->quote,
+                    'author' => $quote->author,
+                    'category' => $quote->category
                 ); 
                 array_push($quotes_arr, $quote_item);
             }

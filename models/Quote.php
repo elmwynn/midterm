@@ -32,9 +32,8 @@ class Quote {
         }
 
         else if(str_contains($_SERVER['QUERY_STRING'],'author_id')){
-            $query = 'SELECT quotes.id, author, quote FROM ' . $this-> table . 
-            ' LEFT JOIN authors ON quotes.author_id = authors.id
-            WHERE author_id = ?';
+            $query = 'SELECT quotes.id, author, quote, category FROM ' . $this-> table . 
+            ' INNER JOIN authors ON quotes.author_id = authors.id INNER JOIN categories ON quotes.category_id = categories.id WHERE author_id = ?';
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->author_id);
             $stmt->execute();
@@ -43,8 +42,7 @@ class Quote {
 
         else if(str_contains($_SERVER['QUERY_STRING'],'category_id')){
             $query = 'SELECT quotes.id, quote, category FROM ' . $this-> table . 
-            ' LEFT JOIN categories ON quotes.category_id = categories.id
-            WHERE category_id = ?';
+            ' INNER JOIN authors ON quotes.author_id = authors.id INNER JOIN categories ON quotes.category_id = categories.id WHERE category_id = ?';
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->category_id);
             $stmt->execute();
