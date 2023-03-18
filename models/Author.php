@@ -23,7 +23,14 @@ class Author {
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->author = $row['author'];
+        if($row){
+            if(is_null($row['id']))
+               return false;
+             else{
+                 $this->author = $row['author'];
+                 return true;
+             }
+           }  
     }
 
     public function create(){

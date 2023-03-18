@@ -45,10 +45,10 @@
             while($row = $result->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
                 $quote_item = array(
-                    'id' => intval($quote->id),
-                    'quote' => $quote->quote,
-                    'author' => $quote->author,
-                    'category' => $quote->category
+                    'id' => $id,
+                    'quote' => $quote,
+                    'author' => $author,
+                    'category' => $category
                 ); 
                 array_push($quotes_arr, $quote_item);
             }
@@ -71,10 +71,10 @@
             while($row = $result->fetch(PDO::FETCH_ASSOC)){
                 extract($row);
                 $quote_item = array(
-                    'id' => intval($quote->id),
-                    'quote' => $quote->quote,
-                    'author' => $quote->author,
-                    'category' => $quote->category
+                    'id' => $id,
+                    'quote' => $quote,
+                    'author' => $author,
+                    'category' => $category
                 ); 
                 array_push($quotes_arr, $quote_item);
             }
@@ -91,18 +91,19 @@
        
         $quote->id = isset($_GET['id']) ? $_GET['id'] : die();
     
-        $quote->read_single();
+        if($quote->read_single()){
 
-        $quote_arr = array(
-            'id' => intval($quote->id),
-            'quote' => $quote->quote,
-            'author' => $quote->author,
-            'category' => $quote->category
-        );
+            $quote_arr = array(
+                'id' => intval($quote->id),
+                'quote' => $quote->quote,
+                'author' => $quote->author,
+                'category' => $quote->category
+            );
 
-        if(is_null($quote->quote)) 
-            echo json_encode(array('message'=> 'No Quote Found'));
-        else
             print_r(json_encode($quote_arr));
+        }
+        else{
+            echo json_encode(array('message'=> 'No Quotes Found'));
+        }
     }
     

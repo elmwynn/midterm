@@ -57,10 +57,18 @@ class Quote {
             $stmt->bindParam(1, $this->id);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            $this->quote = $row['quote'];
-            $this->author = $row['author'];
-            $this->category = $row['category'];    
+            if($row){
+                if(is_null($row['id']))
+                    return false;
+                else {
+                    $this->quote = $row['quote'];
+                    $this->author = $row['author'];
+                    $this->category = $row['category'];  
+                    return true;
+                }
+              }  
+              else
+                return false;    
         }
     }
 
