@@ -23,7 +23,12 @@ class Category {
         $stmt->bindParam(1, $this->id);
         $stmt->execute();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $this->category = $row['category'];
+        if($row){
+           if(is_null($row['id']))
+              return false;
+            else
+                $this->category = $row['category'];
+          }  
     }
     
     public function create(){

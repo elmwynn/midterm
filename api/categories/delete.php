@@ -18,7 +18,7 @@
     $deleteCategory->id = $data->id;
 
     if($deleteCategory->delete()){
-        echo json_encode('id' => $deleteCategory->id);
+        echo json_encode(array('id' => $deleteCategory->id));
     }
     else {
         echo json_encode(array('message'=> 'No Category Found'));

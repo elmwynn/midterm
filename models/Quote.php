@@ -79,7 +79,9 @@ class Quote {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             $this->id = $row['id'];
             return true;
-        } 
+        }
+        printf("Error: %s. \n", $stmt->error);
+        return false;    
        }
 
 
@@ -112,7 +114,7 @@ class Quote {
       
     }
 
-    public function delete() {
+    public function delete(){
         
         $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id RETURNING id';
 
@@ -123,10 +125,15 @@ class Quote {
         $stmt->bindParam(':id', $this->id);
 
         if($stmt->execute()) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $tester = $row['id'];
-            $test = $tester === null ? false : true;
-            return $test;
+          $row = $stmt->fetch(PDO::FETCH_ASSOC);
+          if($row){
+            if(is_null($row['id']))
+              return false;
+            else
+              return true;
+          }  
+          else
+            return false;
         }
     
   }

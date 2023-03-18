@@ -12,15 +12,16 @@
 
     $category->id = isset($_GET['id']) ? $_GET['id'] : die();
 
-    $category->read_single();
+    if ($category->read_single()){
 
-    $category_arr = array(
-        'id' => intval($category->id),
-        'category' => $category->category
-    );
+        $category_arr = array(
+            'id' => intval($category->id),
+            'category' => $category->category
+        );
 
-    if(is_null($category->category)) 
-         echo json_encode(array('message'=> 'category_id Not Found'));
-    else
         print_r(json_encode($category_arr));
+    }
+    else {
+        echo json_encode(array('message'=> 'category_id Not Found'));
+    }
 ?>
