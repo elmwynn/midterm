@@ -26,8 +26,10 @@ class Category {
         if($row){
            if(is_null($row['id']))
               return false;
-            else
+            else{
                 $this->category = $row['category'];
+                return true;
+            }
           }  
     }
     
