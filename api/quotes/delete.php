@@ -14,12 +14,16 @@
     $deleteQuote = new Quote($db);
 
     $data = json_decode(file_get_contents("php://input"));
+    //retreive data from request
 
     $deleteQuote->id = $data->id;
+    //set data
 
     if($deleteQuote->delete()){
         echo json_encode(array('id' => $deleteQuote->id));
+        //if call to delete successful
     }
     else {
         echo json_encode(array('message'=> 'No Quotes Found'));
+        //if call to delete fails, then no quotes with that id have been found
     }

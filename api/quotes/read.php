@@ -13,8 +13,9 @@
     $result = $quote->read();
 
     $num = $result->rowCount();
-
+    //retrieve rows from query read
     if($num > 0) {
+        //if there are rows
         $quotes_arr = array();
 
         while($row = $result->fetch(PDO::FETCH_ASSOC)){
@@ -26,11 +27,13 @@
                 'category'=> $category
             );
             array_push($quotes_arr, $quote_item);
+            //loop through rows and put data values into array
         }
        echo json_encode($quotes_arr);
     }
     else{
         echo  json_encode(
             array('message'=> 'No Quote Found')
+            //if no rows, then no quotes
         );
     }
