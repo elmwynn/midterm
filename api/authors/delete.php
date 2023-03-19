@@ -21,5 +21,5 @@
         echo json_encode(array('id' => $deleteAuthor->id));
     }
     else {
-        echo json_encode(array('message'=> 'Author Not Deleted'));
+        echo json_encode(array('message'=> 'author_id Not Found'));
     }
