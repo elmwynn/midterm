@@ -43,7 +43,6 @@ class Author {
             $this->id = $row['id'];
             return true;
         }
-        printf("Error: %s. \n", $stmt->error);
         return false;  
     }
 
@@ -60,11 +59,14 @@ class Author {
 
         if($stmt->execute()) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $tester = $row['id'];
-            if($tester === null)  
+            if($row){
+                if(is_null($row['id']))
+                  return false;
+                else
+                  return true;
+              }  
+              else
                 return false;
-            else
-                return true;
 
           }
 
@@ -81,10 +83,15 @@ class Author {
         $stmt->bindParam(':id', $this->id);
 
         if($stmt->execute()) {
-          return true;
-        }
-    
-        printf("Error: %s.\n", $stmt->error);
-        return false;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row){
+              if(is_null($row['id']))
+                return false;
+              else
+                return true;
+            }  
+            else
+              return false;
+          }
   }
 }
