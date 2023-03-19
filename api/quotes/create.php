@@ -30,9 +30,7 @@
             );
             print_r(json_encode($quote_arr));
         }
-        else{
-        echo json_encode (array('message' => 'Quote Not Created'));
-        }
+        
     }
     else {
         echo json_encode (array('message' => 'Missing Required Parameters'));

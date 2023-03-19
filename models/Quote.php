@@ -38,7 +38,17 @@ class Quote {
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->author_id);
             $stmt->execute();
-            return $stmt;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row){
+                if(is_null($row['id']))
+                    return false;
+                else {
+                    
+                    return $stmt;
+                }
+              }  
+              else
+                return false;    
         }
 
         else if(str_contains($_SERVER['QUERY_STRING'],'category_id')){
@@ -47,7 +57,15 @@ class Quote {
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(1, $this->category_id);
             $stmt->execute();
-            return $stmt;
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($row){
+                if(is_null($row['id']))
+                    return false;
+                else 
+                    return $stmt;
+              }  
+              else
+                return false;     
         }
 
         
@@ -73,6 +91,30 @@ class Quote {
     }
 
     public function create(){
+
+        $testQueryOne = 'SELECT * FROM ' . $this->table . ' WHERE author_id = :author_id';
+        $stmtTest = $this->conn->prepare($testQueryOne); 
+        $stmtTest->bindParam(':author_id', $this->author_id);
+        if($stmtTest->execute()){
+          $row = $stmtTest->fetch(PDO::FETCH_ASSOC);
+          if(!($row)){
+            echo json_encode(array('message' => 'author_id Not Found'));
+           return false;
+          }
+        }
+          $testQueryTwo = 'SELECT * FROM ' . $this->table . ' WHERE category_id = :category_id';
+        $stmtTestTwo = $this->conn->prepare($testQueryTwo); 
+        $stmtTestTwo->bindParam(':category_id', $this->category_id);
+        if($stmtTestTwo->execute()){
+          $row = $stmtTestTwo->fetch(PDO::FETCH_ASSOC);
+          if(!($row)){
+             echo json_encode(array('message' => 'category_id Not Found'));
+             return false;
+          }
+        }
+
+          
+  
         $query = 'INSERT INTO ' . $this->table . '(quote, author_id, category_id) VALUES(:quote, :author_id, :category_id) RETURNING id';
         $stmt = $this->conn->prepare($query); 
         
@@ -88,7 +130,6 @@ class Quote {
             $this->id = $row['id'];
             return true;
         }
-        printf("Error: %s. \n", $stmt->error);
         return false;    
        }
 
