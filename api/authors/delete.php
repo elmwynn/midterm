@@ -14,12 +14,15 @@
     $deleteAuthor = new Author($db);
 
     $data = json_decode(file_get_contents("php://input"));
+    //put request from user into data
 
     $deleteAuthor->id = $data->id;
 
     if($deleteAuthor->delete()){
         echo json_encode(array('id' => $deleteAuthor->id));
+     //if author was successfully deleted, output author id
     }
     else {
         echo json_encode(array('message'=> 'author_id Not Found'));
+        //if author was not deleted, meaning author_id was not found, report fialure
     }

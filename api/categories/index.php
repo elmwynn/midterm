@@ -11,6 +11,7 @@ if ($method === 'OPTIONS') {
 
 else if($method === 'GET'){
     if(isset($_SERVER['QUERY_STRING']))
+    //check to see if there is a query string 
         require 'read_single.php';
     else
         require 'read.php';

@@ -23,9 +23,7 @@
             );
             print_r(json_encode($author_arr));
         }
-        else{
-        echo json_encode (array('message' => 'Author Not Created'));
-        }
+        //create new author and load new values into array for output
     }
     else{
         echo json_encode (array('message' => 'Missing Required Parameters'));

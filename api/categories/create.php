@@ -31,6 +31,7 @@
     }
     else {
         echo json_encode (array('message' => 'Missing Required Parameters'));
+        //if isset failed, that means parameters were missing from request so output that
     }
 
 
