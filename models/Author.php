@@ -72,7 +72,7 @@ class Author {
 
     }
 
-    public function delete() {
+    public function delete(){
         
         $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
 

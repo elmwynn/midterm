@@ -102,7 +102,7 @@ class Quote {
            return false;
           }
         }
-          $testQueryTwo = 'SELECT * FROM ' . $this->table . ' WHERE category_id = :category_id';
+        $testQueryTwo = 'SELECT * FROM ' . $this->table . ' WHERE category_id = :category_id';
         $stmtTestTwo = $this->conn->prepare($testQueryTwo); 
         $stmtTestTwo->bindParam(':category_id', $this->category_id);
         if($stmtTestTwo->execute()){
@@ -113,7 +113,6 @@ class Quote {
           }
         }
 
-          
   
         $query = 'INSERT INTO ' . $this->table . '(quote, author_id, category_id) VALUES(:quote, :author_id, :category_id) RETURNING id';
         $stmt = $this->conn->prepare($query); 
@@ -135,6 +134,28 @@ class Quote {
 
 
     public function update(){
+
+        $testQueryOne = 'SELECT * FROM ' . $this->table . ' WHERE author_id = :author_id';
+        $stmtTest = $this->conn->prepare($testQueryOne); 
+        $stmtTest->bindParam(':author_id', $this->author_id);
+        if($stmtTest->execute()){
+          $row = $stmtTest->fetch(PDO::FETCH_ASSOC);
+          if(!($row)){
+            echo json_encode(array('message' => 'author_id Not Found'));
+           return false;
+          }
+        }
+        $testQueryTwo = 'SELECT * FROM ' . $this->table . ' WHERE category_id = :category_id';
+        $stmtTestTwo = $this->conn->prepare($testQueryTwo); 
+        $stmtTestTwo->bindParam(':category_id', $this->category_id);
+        if($stmtTestTwo->execute()){
+          $row = $stmtTestTwo->fetch(PDO::FETCH_ASSOC);
+          if(!($row)){
+             echo json_encode(array('message' => 'category_id Not Found'));
+             return false;
+          }
+        }
+
         $query = 'UPDATE ' . $this->table . ' SET quote = :quote, author_id = :author_id, category_id = :category_id
          WHERE id = :id RETURNING id';
         $stmt = $this->conn->prepare($query);
@@ -147,18 +168,20 @@ class Quote {
         $stmt->bindParam(':category_id', $this->category_id);
         $stmt->bindParam(':id', $this->id);
         
-        
         if($stmt->execute()){
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $tester = $row['id'];
-            if($tester === null)  
+            if($row){
+                if(is_null($row['id'])){
+                    echo json_encode(array('message'=> 'No Quotes Found'));
+                    return false;
+                }
+                else
+                  return true;
+              }  
+              else {
+                echo json_encode(array('message'=> 'No Quotes Found'));
                 return false;
-            else
-                return true;
-        }
-
-        else {
-            return false;
+              }
         }
       
     }

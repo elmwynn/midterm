@@ -74,27 +74,28 @@ class Category {
     
     }
 
-    public function delete() {
+    public function delete(){
         
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+      $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id RETURNING id';
 
-        $stmt = $this->conn->prepare($query);
+      $stmt = $this->conn->prepare($query);
 
-        $this->id = htmlspecialchars(strip_tags($this->id));
+      $this->id = htmlspecialchars(strip_tags($this->id));
 
-        $stmt->bindParam(':id', $this->id);
+      $stmt->bindParam(':id', $this->id);
 
-        if($stmt->execute()) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($row){
-              if(is_null($row['id']))
-                return false;
-              else
-                return true;
-            }  
-            else
-              return false;
-          }
-  }
+      if($stmt->execute()) {
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($row){
+          if(is_null($row['id']))
+            return false;
+          else
+            return true;
+        }  
+        else
+          return false;
+      }
+  
+}
 }
 ?>
