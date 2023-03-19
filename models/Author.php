@@ -74,7 +74,7 @@ class Author {
 
     public function delete(){
         
-        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id';
+        $query = 'DELETE FROM ' . $this->table . ' WHERE id = :id RETURNING id';
 
         $stmt = $this->conn->prepare($query);
 
