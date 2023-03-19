@@ -13,6 +13,7 @@
 
     $data = json_decode(file_get_contents("php://input"));
     if(isset($data->author)){
+        // ensure that the appropriate fields were entered into the request
         $newAuthor->author = $data->author;
        // $newAuthor->id = $data->id;
         if($newAuthor->create()){
@@ -28,4 +29,5 @@
     }
     else{
         echo json_encode (array('message' => 'Missing Required Parameters'));
+        //report missing parameters if any fields missing 
     }

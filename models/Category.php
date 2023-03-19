@@ -45,7 +45,6 @@ class Category {
             $this->id = $row['id'];
             return true;
         }
-        printf("Error: %s. \n", $stmt->error);
         return false;  
     }
 

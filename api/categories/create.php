@@ -13,7 +13,10 @@
     $newCategory = new Category($db);
 
     $data = json_decode(file_get_contents("php://input"));
+    //retrieve user input
+
     if(isset($data->category)){
+        //check to see if required parameters present
         $newCategory->category = $data->category;
         //$newCategory->id = $data->id;
         if($newCategory->create()){
@@ -22,6 +25,7 @@
                 'category' => $newCategory->category
             );
             print_r(json_encode($category_arr));
+            //create new category and load new values into array for output
         }
         
     }
